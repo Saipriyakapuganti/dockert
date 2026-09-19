@@ -1,0 +1,682 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Train Ticketing App</title>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #0b2b40 0%, #1b4f6e 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+        }
+
+        .app-container {
+            max-width: 1200px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            border-radius: 2.5rem;
+            padding: 1.8rem;
+            box-shadow: 0 25px 40px rgba(0, 0, 0, 0.5), inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            color: white;
+            padding: 0 0.5rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 1.8rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .logo i {
+            color: #ffd966;
+            font-size: 2.2rem;
+            filter: drop-shadow(0 0 6px #ffb347);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 0.6rem 1.2rem;
+            border-radius: 40px;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+        }
+
+        .user-info i {
+            color: #ffd966;
+            font-size: 1.4rem;
+        }
+
+        .user-info span {
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .main-panel {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.8rem;
+        }
+
+        .booking-section {
+            flex: 1.2;
+            min-width: 300px;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(10px);
+            border-radius: 2rem;
+            padding: 1.8rem;
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .ticket-section {
+            flex: 0.8;
+            min-width: 280px;
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(10px);
+            border-radius: 2rem;
+            padding: 1.8rem;
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #0b2b40;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            border-bottom: 2px solid rgba(11, 43, 64, 0.2);
+            padding-bottom: 0.7rem;
+        }
+
+        .section-title i {
+            color: #1b4f6e;
+        }
+
+        .input-group {
+            margin-bottom: 1.4rem;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #1e3b4f;
+            margin-bottom: 0.4rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .input-group label i {
+            color: #1b4f6e;
+            font-size: 0.9rem;
+        }
+
+        .input-group input, 
+        .input-group select {
+            width: 100%;
+            padding: 0.9rem 1rem;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 1rem;
+            font-size: 1rem;
+            background: white;
+            transition: all 0.2s;
+            outline: none;
+            color: #0b2b40;
+            font-weight: 500;
+        }
+
+        .input-group input:focus, 
+        .input-group select:focus {
+            border-color: #1b4f6e;
+            box-shadow: 0 0 0 3px rgba(27, 79, 110, 0.2);
+        }
+
+        .row-2col {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .row-2col .input-group {
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .search-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #1b4f6e, #0b2b40);
+            border: none;
+            padding: 1rem;
+            border-radius: 1.2rem;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.7rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 0.5rem;
+            letter-spacing: 0.5px;
+            box-shadow: 0 8px 18px rgba(11, 43, 64, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .search-btn:hover {
+            background: linear-gradient(135deg, #256a8f, #12384f);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 22px rgba(11, 43, 64, 0.5);
+        }
+
+        .search-btn:active {
+            transform: translateY(0);
+        }
+
+        .ticket-preview {
+            background: #ffffff;
+            border-radius: 1.8rem;
+            padding: 1.5rem;
+            box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05), 0 12px 18px -8px rgba(0, 0, 0, 0.2);
+            border: 1px solid #e2e8f0;
+        }
+
+        .ticket-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.2rem;
+            color: #0b2b40;
+            font-weight: 700;
+            font-size: 1.2rem;
+            border-bottom: 2px dashed #cbd5e1;
+            padding-bottom: 0.7rem;
+        }
+
+        .ticket-header i {
+            color: #1b4f6e;
+            font-size: 1.6rem;
+        }
+
+        .ticket-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.7rem;
+            font-size: 0.95rem;
+            color: #1e3b4f;
+        }
+
+        .ticket-row .label {
+            font-weight: 500;
+            color: #4b6584;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .ticket-row .value {
+            font-weight: 700;
+            color: #0b2b40;
+            text-align: right;
+            max-width: 60%;
+            word-break: break-word;
+        }
+
+        .price-tag {
+            background: #f8fafc;
+            border-radius: 1.2rem;
+            padding: 0.8rem 1rem;
+            margin-top: 0.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .price-tag span:first-child {
+            font-weight: 600;
+            color: #1e3b4f;
+        }
+
+        .price-tag .price-value {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #0b2b40;
+            letter-spacing: -0.5px;
+        }
+
+        .book-btn {
+            background: #ffb347;
+            background: linear-gradient(135deg, #ffb347, #ff9f1c);
+            border: none;
+            padding: 1rem;
+            border-radius: 1.2rem;
+            color: #0b2b40;
+            font-size: 1.1rem;
+            font-weight: 700;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.7rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 1rem;
+            box-shadow: 0 8px 18px rgba(255, 159, 28, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            width: 100%;
+            letter-spacing: 0.5px;
+        }
+
+        .book-btn:hover {
+            background: linear-gradient(135deg, #ffa726, #f57c00);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 22px rgba(245, 124, 0, 0.5);
+        }
+
+        .book-btn:disabled {
+            opacity: 0.6;
+            transform: none;
+            cursor: not-allowed;
+            background: #94a3b8;
+            box-shadow: none;
+        }
+
+        .message-box {
+            margin-top: 1rem;
+            padding: 0.8rem;
+            border-radius: 1rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .message-success {
+            background: #e6fffa;
+            color: #065f46;
+            border-left: 5px solid #10b981;
+        }
+
+        .message-error {
+            background: #fee2e2;
+            color: #991b1b;
+            border-left: 5px solid #ef4444;
+        }
+
+        .small-note {
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-top: 0.5rem;
+            text-align: center;
+        }
+
+        /* responsiveness */
+        @media (max-width: 750px) {
+            .app-container {
+                padding: 1.2rem;
+            }
+            .header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+            .main-panel {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-train"></i>
+                <span>RailExpress</span>
+            </div>
+            <div class="user-info">
+                <i class="fas fa-user-circle"></i>
+                <span>Guest User</span>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-panel">
+            <!-- Booking Form Section -->
+            <div class="booking-section">
+                <div class="section-title">
+                    <i class="fas fa-search"></i>
+                    <span>Find Your Train</span>
+                </div>
+
+                <div class="input-group">
+                    <label><i class="fas fa-map-marker-alt"></i> From</label>
+                    <input type="text" id="fromStation" placeholder="e.g., New York" value="New York" list="stations">
+                    <datalist id="stations">
+                        <option value="New York">
+                        <option value="Chicago">
+                        <option value="Los Angeles">
+                        <option value="Miami">
+                        <option value="Seattle">
+                        <option value="Boston">
+                    </datalist>
+                </div>
+
+                <div class="input-group">
+                    <label><i class="fas fa-map-marker-alt"></i> To</label>
+                    <input type="text" id="toStation" placeholder="e.g., Chicago" value="Chicago" list="stations">
+                </div>
+
+                <div class="row-2col">
+                    <div class="input-group">
+                        <label><i class="fas fa-calendar-alt"></i> Date</label>
+                        <input type="date" id="travelDate" value="2025-06-15">
+                    </div>
+                    <div class="input-group">
+                        <label><i class="fas fa-users"></i> Passengers</label>
+                        <select id="passengerCount">
+                            <option value="1">1 Passenger</option>
+                            <option value="2" selected>2 Passengers</option>
+                            <option value="3">3 Passengers</option>
+                            <option value="4">4 Passengers</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label><i class="fas fa-chair"></i> Class</label>
+                    <select id="travelClass">
+                        <option value="economy">Economy</option>
+                        <option value="business" selected>Business</option>
+                        <option value="first">First Class</option>
+                    </select>
+                </div>
+
+                <button class="search-btn" id="searchBtn">
+                    <i class="fas fa-search"></i> Search Trains
+                </button>
+                <div class="small-note">
+                    <i class="fas fa-info-circle"></i> Demo: all routes available
+                </div>
+            </div>
+
+            <!-- Ticket Preview & Booking Section -->
+            <div class="ticket-section">
+                <div class="section-title">
+                    <i class="fas fa-ticket-alt"></i>
+                    <span>Your Ticket</span>
+                </div>
+
+                <div class="ticket-preview" id="ticketPreview">
+                    <div class="ticket-header">
+                        <span>RAIL EXPRESS</span>
+                        <i class="fas fa-qrcode"></i>
+                    </div>
+                    <div class="ticket-row">
+                        <span class="label"><i class="fas fa-arrow-right"></i> From</span>
+                        <span class="value" id="previewFrom">New York</span>
+                    </div>
+                    <div class="ticket-row">
+                        <span class="label"><i class="fas fa-arrow-left"></i> To</span>
+                        <span class="value" id="previewTo">Chicago</span>
+                    </div>
+                    <div class="ticket-row">
+                        <span class="label"><i class="fas fa-calendar"></i> Date</span>
+                        <span class="value" id="previewDate">2025-06-15</span>
+                    </div>
+                    <div class="ticket-row">
+                        <span class="label"><i class="fas fa-user"></i> Passengers</span>
+                        <span class="value" id="previewPassengers">2</span>
+                    </div>
+                    <div class="ticket-row">
+                        <span class="label"><i class="fas fa-star"></i> Class</span>
+                        <span class="value" id="previewClass">Business</span>
+                    </div>
+                    <div class="price-tag">
+                        <span>Total</span>
+                        <span class="price-value" id="previewPrice">$120</span>
+                    </div>
+                </div>
+
+                <button class="book-btn" id="bookBtn">
+                    <i class="fas fa-check-circle"></i> Confirm Booking
+                </button>
+
+                <div id="messageBox" class="message-box" style="display: none;"></div>
+                <div class="small-note" style="margin-top: 0.8rem;">
+                    <i class="fas fa-lock"></i> Secure demo transaction
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // --- DOM Elements ---
+            const fromInput = document.getElementById('fromStation');
+            const toInput = document.getElementById('toStation');
+            const dateInput = document.getElementById('travelDate');
+            const passengerSelect = document.getElementById('passengerCount');
+            const classSelect = document.getElementById('travelClass');
+            const searchBtn = document.getElementById('searchBtn');
+            const bookBtn = document.getElementById('bookBtn');
+            const messageBox = document.getElementById('messageBox');
+
+            // Preview elements
+            const previewFrom = document.getElementById('previewFrom');
+            const previewTo = document.getElementById('previewTo');
+            const previewDate = document.getElementById('previewDate');
+            const previewPassengers = document.getElementById('previewPassengers');
+            const previewClass = document.getElementById('previewClass');
+            const previewPrice = document.getElementById('previewPrice');
+
+            // --- Constants for pricing ---
+            const BASE_PRICE = 50; // per passenger base (economy)
+            const CLASS_MULTIPLIER = {
+                economy: 1.0,
+                business: 1.5,
+                first: 2.2
+            };
+
+            // --- Helper: calculate price based on current selections ---
+            function calculatePrice() {
+                const passengers = parseInt(passengerSelect.value, 10) || 1;
+                const travelClass = classSelect.value;
+                const multiplier = CLASS_MULTIPLIER[travelClass] || 1.0;
+                const total = Math.round(BASE_PRICE * passengers * multiplier);
+                return total;
+            }
+
+            // --- Update ticket preview with current form values ---
+            function updatePreview() {
+                // From / To (fallback to placeholder if empty)
+                previewFrom.textContent = fromInput.value.trim() || '—';
+                previewTo.textContent = toInput.value.trim() || '—';
+
+                // Date (format nicely)
+                const rawDate = dateInput.value;
+                if (rawDate) {
+                    // Format as YYYY-MM-DD already, but let's show it friendly
+                    try {
+                        const d = new Date(rawDate + 'T00:00:00');
+                        if (!isNaN(d.getTime())) {
+                            previewDate.textContent = d.toLocaleDateString('en-US', { 
+                                month: 'short', day: 'numeric', year: 'numeric' 
+                            });
+                        } else {
+                            previewDate.textContent = rawDate;
+                        }
+                    } catch (e) {
+                        previewDate.textContent = rawDate;
+                    }
+                } else {
+                    previewDate.textContent = '—';
+                }
+
+                // Passengers
+                const passengers = passengerSelect.value;
+                previewPassengers.textContent = passengers + (passengers === '1' ? ' passenger' : ' passengers');
+
+                // Class (capitalized)
+                const classValue = classSelect.value;
+                const classDisplay = classValue.charAt(0).toUpperCase() + classValue.slice(1);
+                previewClass.textContent = classDisplay;
+
+                // Price
+                const total = calculatePrice();
+                previewPrice.textContent = '$' + total;
+            }
+
+            // --- Show message helper ---
+            function showMessage(text, type = 'success') {
+                messageBox.textContent = text;
+                messageBox.className = 'message-box ' + (type === 'success' ? 'message-success' : 'message-error');
+                messageBox.style.display = 'block';
+                // auto hide after 4 sec
+                if (window.messageTimeout) clearTimeout(window.messageTimeout);
+                window.messageTimeout = setTimeout(() => {
+                    messageBox.style.display = 'none';
+                }, 4000);
+            }
+
+            // --- Validate form before booking/search ---
+            function isFormValid() {
+                if (!fromInput.value.trim() || !toInput.value.trim()) {
+                    showMessage('Please enter both origin and destination.', 'error');
+                    return false;
+                }
+                if (fromInput.value.trim().toLowerCase() === toInput.value.trim().toLowerCase()) {
+                    showMessage('Origin and destination cannot be the same.', 'error');
+                    return false;
+                }
+                if (!dateInput.value) {
+                    showMessage('Please select a travel date.', 'error');
+                    return false;
+                }
+                return true;
+            }
+
+            // --- Search Trains (simulated) ---
+            function handleSearch() {
+                if (!isFormValid()) return;
+
+                // In a real app, this would fetch train data.
+                // Here, we just update the preview and show a confirmation.
+                updatePreview();
+                showMessage('✅ Trains found! Review your ticket below.', 'success');
+
+                // Optionally add a subtle flash to ticket preview
+                const previewDiv = document.querySelector('.ticket-preview');
+                previewDiv.style.transition = '0.3s';
+                previewDiv.style.boxShadow = '0 0 0 3px #ffb347, 0 12px 18px -8px rgba(0,0,0,0.2)';
+                setTimeout(() => {
+                    previewDiv.style.boxShadow = 'inset 0 0 0 1px rgba(0,0,0,0.05), 0 12px 18px -8px rgba(0,0,0,0.2)';
+                }, 300);
+            }
+
+            // --- Confirm Booking (simulated) ---
+            function handleBooking() {
+                if (!isFormValid()) return;
+
+                // Final update to preview (in case user changed fields without searching)
+                updatePreview();
+
+                // Simulate booking success
+                const from = fromInput.value.trim();
+                const to = toInput.value.trim();
+                const date = dateInput.value;
+                const passengers = passengerSelect.value;
+                const travelClass = classSelect.value;
+                const total = calculatePrice();
+
+                // Fake booking reference
+                const ref = 'RX' + Math.floor(Math.random() * 900000 + 100000);
+
+                showMessage(`🎫 Booking confirmed! Ref: ${ref}. ${from} → ${to} on ${date}. Total $${total}.`, 'success');
+                
+                // Optional: disable book button briefly to prevent double click
+                bookBtn.disabled = true;
+                setTimeout(() => {
+                    bookBtn.disabled = false;
+                }, 3000);
+            }
+
+            // --- Attach event listeners for live preview updates ---
+            fromInput.addEventListener('input', updatePreview);
+            toInput.addEventListener('input', updatePreview);
+            dateInput.addEventListener('change', updatePreview);
+            passengerSelect.addEventListener('change', updatePreview);
+            classSelect.addEventListener('change', updatePreview);
+
+            // Initialize preview on page load
+            window.addEventListener('DOMContentLoaded', () => {
+                // Set default date to today + 7 days if not set
+                const today = new Date();
+                const futureDate = new Date(today);
+                futureDate.setDate(today.getDate() + 7);
+                if (!dateInput.value) {
+                    const yyyy = futureDate.getFullYear();
+                    const mm = String(futureDate.getMonth() + 1).padStart(2, '0');
+                    const dd = String(futureDate.getDate()).padStart(2, '0');
+                    dateInput.value = `${yyyy}-${mm}-${dd}`;
+                }
+                updatePreview();
+            });
+
+            // Button events
+            searchBtn.addEventListener('click', handleSearch);
+            bookBtn.addEventListener('click', handleBooking);
+
+            // Also make Enter key on inputs trigger search (optional)
+            [fromInput, toInput].forEach(input => {
+                input.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        handleSearch();
+                    }
+                });
+            });
+
+            // Ensure preview updates if date is changed manually
+            // already added change listener
+
+            // If the user clicks book without searching, that's fine, but we validate.
+        })();
+    </script>
+</body>
+</html>
